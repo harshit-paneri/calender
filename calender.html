@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+.month {
+  padding: 70px 25px;
+  width: 100%;
+  background: #1abc9c;
+  text-align: center;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+  padding-top: 10px;
+}
+
+.month .next {
+  float: right;
+  padding-top: 10px;
+}
+
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color: #ddd;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  color: #666;
+  text-align: center;
+}
+
+.days {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+}
+
+.days div {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+}
+.today{
+    background-color: blue;
+}
+.day div:hover:not(.today)
+{
+    background-color: #262626;
+    border: 2rem solid #777777;
+    cursor: pointer;
+}
+
+.days li .active {
+  padding: 5px;
+  background: #1abc9c;
+  color: white !important
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+  .weekdays li, .days li {width: 12.5%;}
+  .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 12.2%;}
+}
+</style>
+</head>
+<body>
+
+<h1>CSS Calendar</h1>
+
+<div class="month">      
+  <ul>
+    <li class="prev">&#10094;</li>
+    <li class="next">&#10095;</li>
+    <li>
+      <h1>August</h1><br>
+      <span style="font-size:18px">2017</span>
+    </li>
+  </ul>
+</div>
+
+<ul class="weekdays">
+  <li>Mo</li>
+  <li>Tu</li>
+  <li>We</li>
+  <li>Th</li>
+  <li>Fr</li>
+  <li>Sa</li>
+  <li>Su</li>
+</ul>
+<div class="days">
+  
+</div>
+<script>
+    const date = new Date();
+    const renderCalender = () =>{
+        date.setDate(1);
+    const mouthDays = document.querySelector(".days");
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1,0 ).getDate();
+    const prevLastDay = new Date(date.getFullYear(), date.getMonth(),0 ).getDate();
+    const firstDayIndex = date.getDay();
+    const lastDayIndex = new Date(date.getFullYear(), date.getMonth() + 1,0 ).getDay();
+    const nextDays = 7-lastDayIndex-1;
+    const mouths = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    document.querySelector('.month h1').innerHTML=mouths[date.getMonth()];
+    document.querySelector('.month span').innerHTML=new Date().toDateString();
+
+    let days="";
+    for(let x=firstDayIndex;x>0;x--)
+    {
+        days+=`<div class="prev-date">${prevLastDay-x+1}</div>`;
+    }
+    for(let i=1;i<=lastDay;i++)
+    {
+        if(i=== new Date().getDate() && date.getMonth() === new Date().getMonth())
+        {
+            days+=`<div class="today">${i}</div>`;    
+        }
+        else
+        {
+            days+=`<div>${i}</div>`;
+        }
+    }
+    for(let j=1;j<=nextDays;j++)
+    {
+        days+=`<div class="next-date">${j}</div>`;
+        mouthDays.innerHTML=days;
+    }
+
+
+    }
+    document.querySelector('.prev').addEventListener('click',() => {date.setMonth(date.getMonth()-1);renderCalender();});
+    document.querySelector('.next').addEventListener('click',() => {date.setMonth(date.getMonth()+1);renderCalender();});
+    renderCalender();
+</script>
+
+</body>
+</html>
